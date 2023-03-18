@@ -5,5 +5,5 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">From the Square world,\nHello, %1$s!</string>
-    <string name="commot">Yo! What\'s good?\nWelcome to PayTalk™</string>
+    <string name="commot">Yo! What\'s good?\nWelcome to Spizer</string>
 </resources>

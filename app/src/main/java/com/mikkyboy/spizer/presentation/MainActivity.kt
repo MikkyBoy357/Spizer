@@ -36,12 +36,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var isSplashScreen = mutableStateOf(true)
-        lifecycleScope.launch(Dispatchers.Default){
+        lifecycleScope.launch(Dispatchers.Default) {
             delay(3000)
             isSplashScreen.value = false
         }
         installSplashScreen().apply {
-            setKeepOnScreenCondition{
+            setKeepOnScreenCondition {
                 isSplashScreen.value
             }
         }
@@ -53,72 +53,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WearApp(greetingName: String) {
-    var counter by remember {
-        mutableStateOf(0)
-    }
-
-    fun decrement() {
-        counter--
-        println("Decrement $counter")
-    }
-
-    fun increment() {
-        counter++
-        println("Increment $counter")
-    }
-
     SpizerTheme {
         /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
          * version of LazyColumn for wear devices with some added features. For more information,
          * see d.android.com/wear/compose.
          */
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Greeting(greetingName = greetingName)
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Button(
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp),
-                    onClick = {
-                        decrement()
-                    },
-                ) {
-                    Text(
-                        text = "-", style = TextStyle(
-                            fontSize = 20.sp
-                        )
-                    )
-                }
-                Text(
-                    text = "$counter", style = TextStyle(
-                        fontSize = 20.sp
-                    )
-                )
-                Button(
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp),
-                    onClick = {
-                        increment()
-                    },
-                ) {
-                    Text(
-                        text = "+", style = TextStyle(
-                            fontSize = 20.sp,
-                        )
-                    )
-                }
-            }
-        }
+//        HomeScreen(greetingName = greetingName)
+        Navigation()
     }
 }
 
