@@ -23,9 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import androidx.wear.compose.material.Button
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.*
 import com.mikkyboy.spizer.R
 import com.mikkyboy.spizer.presentation.theme.SpizerTheme
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +49,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalWearMaterialApi::class)
 @Composable
 fun WearApp(greetingName: String) {
     SpizerTheme {
@@ -59,7 +58,12 @@ fun WearApp(greetingName: String) {
          * see d.android.com/wear/compose.
          */
 //        HomeScreen(greetingName = greetingName)
-        Navigation()
+        Scaffold(
+//            timeText = { TimeText()},
+            vignette = { Vignette(vignettePosition = VignettePosition.TopAndBottom) },
+        ) {
+            Navigation()
+        }
     }
 }
 

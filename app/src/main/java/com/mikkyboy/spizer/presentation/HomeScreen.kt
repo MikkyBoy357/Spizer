@@ -1,10 +1,13 @@
 package com.mikkyboy.spizer.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -34,6 +37,10 @@ fun HomeScreen(navController: NavController, greetingName: String) {
 
     val scalingLazyListState = rememberScalingLazyListState()
 
+    val selectedItem = remember {
+        mutableStateOf(1)
+    }
+
     val scalingLazyState = remember {
         ScalingLazyListState(
             initialCenterItemIndex = 0,
@@ -42,6 +49,8 @@ fun HomeScreen(navController: NavController, greetingName: String) {
         )
     }
     val focusRequester = remember { FocusRequester() }
+    val iconModifier = Modifier.size(18.dp)
+    val shape = RoundedCornerShape(30.dp)
 
     Scaffold(
         modifier = Modifier.background(Color.Black),
@@ -56,25 +65,64 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(40.dp)
-                    .padding(top = 10.dp, start = 60.dp, end = 60.dp),
+                    .padding(top = 10.dp, start = 60.dp, end = 60.dp)
+//                    .background(Color.Blue)
+                ,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_settings_24),
-                    contentDescription = "Settings",
-                    tint = PaytalkGreen
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_mic_none_24),
-                    contentDescription = "Mic",
-                    tint = PaytalkGreen
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_shopping_cart_24),
-                    contentDescription = "Cart",
-                    tint = PaytalkGreen
-                )
+                BarItem(
+                    onClick = {
+                        selectedItem.value = 0
+                        println("selectedItem => ${selectedItem.value}")
+                    },
+                    selectedItem = selectedItem.value,
+                    itemIndex = 0,
+                    iconModifier = iconModifier
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_settings_24),
+                        contentDescription = "Settings",
+                        tint = PaytalkGreen,
+                        modifier = iconModifier
+
+                    )
+                }
+                BarItem(
+                    onClick = {
+                        selectedItem.value = 1
+                        println("selectedItem => ${selectedItem.value}")
+                    },
+                    selectedItem = selectedItem.value,
+                    itemIndex = 1,
+                    iconModifier = iconModifier
+                ) {
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_mic_none_24),
+                        contentDescription = "Mic",
+                        tint = PaytalkGreen,
+                        modifier = iconModifier
+
+                    )
+                }
+                BarItem(
+                    onClick = {
+                        selectedItem.value = 2
+                        println("selectedItem => ${selectedItem.value}")
+                    },
+                    selectedItem = selectedItem.value,
+                    itemIndex = 2,
+                    iconModifier = iconModifier
+                ) {
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_shopping_cart_24),
+                        contentDescription = "Cart",
+                        tint = PaytalkGreen,
+                        modifier = iconModifier
+                    )
+                }
             }
             ScalingLazyColumn(
 //                modifier = Modifier.fillMaxSize(),
@@ -146,5 +194,27 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun BarItem(
+    onClick: () -> Unit,
+    selectedItem: Int,
+    itemIndex: Int,
+    iconModifier: Modifier,
+    content: @Composable() () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .width(35.dp)
+            .height(24.dp)
+            .clickable { onClick() }
+            .clip(RoundedCornerShape(10.dp))
+            .background(if (selectedItem == itemIndex) Color.Gray.copy(alpha = 0.4f) else Color.Transparent),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        content()
     }
 }
