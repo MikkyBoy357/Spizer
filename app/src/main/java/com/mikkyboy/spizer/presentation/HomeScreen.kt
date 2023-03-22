@@ -18,24 +18,11 @@ import androidx.navigation.NavController
 import androidx.wear.compose.material.*
 import com.mikkyboy.spizer.R
 import com.mikkyboy.spizer.presentation.theme.PaytalkGreen
+import com.mikkyboy.spizer.presentation.widgets.NavBarItem
 
 @Composable
 fun HomeScreen(navController: NavController, greetingName: String) {
-    var counter by remember {
-        mutableStateOf(0)
-    }
 
-    fun decrement() {
-        counter--
-        println("Decrement $counter")
-    }
-
-    fun increment() {
-        counter++
-        println("Increment $counter")
-    }
-
-    val scalingLazyListState = rememberScalingLazyListState()
 
     val selectedItem = remember {
         mutableStateOf(1)
@@ -52,6 +39,13 @@ fun HomeScreen(navController: NavController, greetingName: String) {
     val iconModifier = Modifier.size(18.dp)
     val shape = RoundedCornerShape(30.dp)
 
+    val pageViews =
+        listOf(
+            Text(text = "Settings"),
+            MicScreen(greetingName = greetingName, navController = navController),
+            Text(text = "Cart"),
+        )
+
     Scaffold(
         modifier = Modifier.background(Color.Black),
         positionIndicator = { PositionIndicator(scalingLazyListState = scalingLazyState) }
@@ -61,6 +55,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center
         ) {
+            // Top Navigation Bar
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -71,7 +66,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BarItem(
+                NavBarItem(
                     onClick = {
                         selectedItem.value = 0
                         println("selectedItem => ${selectedItem.value}")
@@ -88,7 +83,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
 
                     )
                 }
-                BarItem(
+                NavBarItem(
                     onClick = {
                         selectedItem.value = 1
                         println("selectedItem => ${selectedItem.value}")
@@ -106,7 +101,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
 
                     )
                 }
-                BarItem(
+                NavBarItem(
                     onClick = {
                         selectedItem.value = 2
                         println("selectedItem => ${selectedItem.value}")
@@ -124,6 +119,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                     )
                 }
             }
+            // PageView ==> Something Like Fragments
             ScalingLazyColumn(
 //                modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
@@ -138,58 +134,17 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                 state = scalingLazyState
             ) {
                 item {
-                    Column {
-                        Greeting(greetingName = greetingName)
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Button(
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .height(50.dp),
-                                onClick = {
-                                    decrement()
-                                },
-                            ) {
-                                Text(
-                                    text = "-", style = TextStyle(
-                                        fontSize = 20.sp
-                                    )
-                                )
-                            }
-                            Text(
-                                text = "$counter", style = TextStyle(
-                                    fontSize = 20.sp
-                                )
-                            )
-                            Button(
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .height(50.dp),
-                                onClick = {
-                                    increment()
-                                },
-                            ) {
-                                Text(
-                                    text = "+", style = TextStyle(
-                                        fontSize = 20.sp,
-                                    )
-                                )
-                            }
-                        }
-                        Button(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 50.dp)
-                            .height(50.dp), onClick = {
-                            println("Next")
-                            navController.navigate(Screen.DetailScreen.withArgs(counter.toString()))
-                        }) {
-                            Text(text = "Next")
-                        }
+                    when (selectedItem.value) {
+                        0 -> Text(
+                            text = "SettingScreen"
+                        )
+                        1 -> MicScreen(
+                            greetingName = greetingName,
+                            navController = navController
+                        )
+                        else -> Text(
+                            text = "CartScreen"
+                        )
                     }
                 }
             }
@@ -198,23 +153,72 @@ fun HomeScreen(navController: NavController, greetingName: String) {
 }
 
 @Composable
-fun BarItem(
-    onClick: () -> Unit,
-    selectedItem: Int,
-    itemIndex: Int,
-    iconModifier: Modifier,
-    content: @Composable() () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .width(35.dp)
-            .height(24.dp)
-            .clickable { onClick() }
-            .clip(RoundedCornerShape(10.dp))
-            .background(if (selectedItem == itemIndex) Color.Gray.copy(alpha = 0.4f) else Color.Transparent),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        content()
+fun MicScreen(greetingName: String, navController: NavController) {
+    var counter by remember {
+        mutableStateOf(0)
+    }
+
+    fun decrement() {
+        counter--
+        println("Decrement $counter")
+    }
+
+    fun increment() {
+        counter++
+        println("Increment $counter")
+    }
+
+    Column {
+        Greeting(greetingName = greetingName)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(50.dp),
+                onClick = {
+                    decrement()
+                },
+            ) {
+                Text(
+                    text = "-", style = TextStyle(
+                        fontSize = 20.sp
+                    )
+                )
+            }
+            Text(
+                text = "$counter", style = TextStyle(
+                    fontSize = 20.sp
+                )
+            )
+            Button(
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(50.dp),
+                onClick = {
+                    increment()
+                },
+            ) {
+                Text(
+                    text = "+", style = TextStyle(
+                        fontSize = 20.sp,
+                    )
+                )
+            }
+        }
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 50.dp)
+            .height(50.dp), onClick = {
+            println("Next")
+            navController.navigate(Screen.DetailScreen.withArgs(counter.toString()))
+        }) {
+            Text(text = "Next")
+        }
     }
 }
