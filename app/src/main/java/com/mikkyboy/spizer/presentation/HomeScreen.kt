@@ -3,6 +3,8 @@ package com.mikkyboy.spizer.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,7 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.wear.compose.material.*
 import com.mikkyboy.spizer.R
+import com.mikkyboy.spizer.presentation.nav_bar_screens.MicScreen
 import com.mikkyboy.spizer.presentation.theme.PaytalkGreen
+import com.mikkyboy.spizer.presentation.widgets.GridItem
 import com.mikkyboy.spizer.presentation.widgets.NavBarItem
 
 @Composable
@@ -45,6 +49,8 @@ fun HomeScreen(navController: NavController, greetingName: String) {
             MicScreen(greetingName = greetingName, navController = navController),
             Text(text = "Cart"),
         )
+
+    val numbers = (0..20).toList()
 
     Scaffold(
         modifier = Modifier.background(Color.Black),
@@ -142,83 +148,44 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                             greetingName = greetingName,
                             navController = navController
                         )
-                        else -> Text(
-                            text = "CartScreen"
-                        )
+                        else -> Column {
+                            Row(
+                                modifier = Modifier,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                GridItem(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.49f),
+                                    itemPosition = 0,
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                GridItem(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.99f),
+                                    itemPosition = 1,
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Row(
+                                modifier = Modifier,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                GridItem(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.49f),
+                                    itemPosition = 2,
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                GridItem(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.99f),
+                                    itemPosition = 3,
+                                )
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun MicScreen(greetingName: String, navController: NavController) {
-    var counter by remember {
-        mutableStateOf(0)
-    }
-
-    fun decrement() {
-        counter--
-        println("Decrement $counter")
-    }
-
-    fun increment() {
-        counter++
-        println("Increment $counter")
-    }
-
-    Column {
-        Greeting(greetingName = greetingName)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(
-                modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp),
-                onClick = {
-                    decrement()
-                },
-            ) {
-                Text(
-                    text = "-", style = TextStyle(
-                        fontSize = 20.sp
-                    )
-                )
-            }
-            Text(
-                text = "$counter", style = TextStyle(
-                    fontSize = 20.sp
-                )
-            )
-            Button(
-                modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp),
-                onClick = {
-                    increment()
-                },
-            ) {
-                Text(
-                    text = "+", style = TextStyle(
-                        fontSize = 20.sp,
-                    )
-                )
-            }
-        }
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 50.dp)
-            .height(50.dp), onClick = {
-            println("Next")
-            navController.navigate(Screen.DetailScreen.withArgs(counter.toString()))
-        }) {
-            Text(text = "Next")
         }
     }
 }
