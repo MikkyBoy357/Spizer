@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Sys(
     @SerialName("country")
-    val country: String,
+    val country: String? = null,
     @SerialName("sunrise")
-    val sunrise: Int,
+    val sunrise: Int? = null,
     @SerialName("sunset")
-    val sunset: Int
+    val sunset: Int? = null
 )

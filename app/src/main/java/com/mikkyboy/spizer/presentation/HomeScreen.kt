@@ -31,7 +31,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
 
 
     val selectedItem = remember {
-        mutableStateOf(2)
+        mutableStateOf(0)
     }
 
     val scalingLazyState = remember {

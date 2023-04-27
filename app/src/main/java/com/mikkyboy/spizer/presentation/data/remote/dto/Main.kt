@@ -7,19 +7,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Main(
     @SerialName("feels_like")
-    val feelsLike: Double,
-//    @SerialName("grnd_level")
-//    val grndLevel: Int,
+    val feelsLike: Double? = null,
+    @SerialName("grnd_level")
+    val grndLevel: Int? = null,
     @SerialName("humidity")
-    val humidity: Int,
+    val humidity: Int? = null,
     @SerialName("pressure")
-    val pressure: Int,
-//    @SerialName("sea_level")
-//    val seaLevel: Int,
+    val pressure: Int? = null,
+    @SerialName("sea_level")
+    val seaLevel: Int? = null,
     @SerialName("temp")
-    val temp: Double,
+    val temp: Double? = null,
     @SerialName("temp_max")
-    val tempMax: Double,
+    val tempMax: Double? = null,
     @SerialName("temp_min")
-    val tempMin: Double
+    val tempMin: Double? = null
 )
