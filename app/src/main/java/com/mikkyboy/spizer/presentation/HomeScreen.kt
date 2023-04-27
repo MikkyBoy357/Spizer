@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.wear.compose.material.*
 import com.mikkyboy.spizer.R
+import com.mikkyboy.spizer.presentation.nav_bar_screens.CartScreen
 import com.mikkyboy.spizer.presentation.nav_bar_screens.MicScreen
+import com.mikkyboy.spizer.presentation.nav_bar_screens.SettingScreen
 import com.mikkyboy.spizer.presentation.theme.PaytalkGreen
 import com.mikkyboy.spizer.presentation.widgets.GridItem
 import com.mikkyboy.spizer.presentation.widgets.NavBarItem
@@ -29,7 +31,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
 
 
     val selectedItem = remember {
-        mutableStateOf(1)
+        mutableStateOf(2)
     }
 
     val scalingLazyState = remember {
@@ -66,7 +68,7 @@ fun HomeScreen(navController: NavController, greetingName: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(40.dp)
-                    .padding(top = 10.dp, start = 60.dp, end = 60.dp)
+                    .padding(top = 10.dp, start = 50.dp, end = 50.dp)
 //                    .background(Color.Blue)
                 ,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -141,48 +143,12 @@ fun HomeScreen(navController: NavController, greetingName: String) {
             ) {
                 item {
                     when (selectedItem.value) {
-                        0 -> Text(
-                            text = "SettingScreen"
-                        )
+                        0 -> SettingScreen()
                         1 -> MicScreen(
                             greetingName = greetingName,
                             navController = navController
                         )
-                        else -> Column {
-                            Row(
-                                modifier = Modifier,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                GridItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.49f),
-                                    itemPosition = 0,
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                GridItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.99f),
-                                    itemPosition = 1,
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                modifier = Modifier,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                GridItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.49f),
-                                    itemPosition = 2,
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                GridItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.99f),
-                                    itemPosition = 3,
-                                )
-                            }
-                        }
+                        else -> CartScreen()
                     }
                 }
             }

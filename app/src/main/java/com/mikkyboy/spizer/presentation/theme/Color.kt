@@ -9,6 +9,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val Red400 = Color(0xFFCF6679)
 val PaytalkGreen = Color(0xFF23B88B)
+val MyBlue = Color(0xFF5E9fE0)
 
 internal val wearColorPalette: Colors = Colors(
     primary = Purple200,
