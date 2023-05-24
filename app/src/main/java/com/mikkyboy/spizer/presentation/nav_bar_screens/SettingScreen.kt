@@ -40,77 +40,100 @@ fun SettingScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_wb_sunny_24),
-                contentDescription = "Weather",
-                tint = Color.Yellow
-            )
-            Text(text = weatherData.value?.name ?: "City")
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_wb_sunny_24),
-                contentDescription = "Weather",
-                tint = Color.Transparent
-            )
-        }
-        Spacer(modifier = Modifier.height(5.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_arrow_upward_24),
-                contentDescription = "Weather",
-                tint = Red400
-            )
-            Text(
-                text = if (weatherData.value?.main?.temp != null) "${weatherData.value?.main?.temp}ºC" else "Temp",
-                fontSize = 20.sp
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_arrow_downward_24),
-                contentDescription = "Weather",
-                tint = MyBlue
-            )
-        }
-        Spacer(modifier = Modifier.height(5.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Text(
-                text = "MinTemp: ${weatherData.value?.main?.tempMin}",
-                fontSize = 10.sp
-            )
-            Text(
-                text = "MaxTemp: ${weatherData.value?.main?.tempMax}",
-                fontSize = 10.sp
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
+        if (weatherData.value == null) {
+            Column(verticalArrangement = Arrangement.Center) {
+                Text(text = "Loading...")
+            }
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                if (weatherData.value?.main?.temp != null && weatherData.value?.main?.temp!! >= 20) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_wb_sunny_24),
+                        contentDescription = "Weather",
+                        tint = Color.Yellow
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_cloud_24),
+                        contentDescription = "Weather",
+                        tint = Color.Yellow
+                    )
+                }
+                Text(text = weatherData.value?.name ?: "City")
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_wb_sunny_24),
+                    contentDescription = "Weather",
+                    tint = Color.Transparent
+                )
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_arrow_upward_24),
+                    contentDescription = "Weather",
+                    tint = Red400
+                )
+                Text(
+                    text = if (weatherData.value?.main?.temp != null) "${weatherData.value?.main?.temp}ºC" else "Temp",
+                    fontSize = 20.sp
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_arrow_downward_24),
+                    contentDescription = "Weather",
+                    tint = MyBlue
+                )
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    text = "MinTemp: ${weatherData.value?.main?.tempMin}",
+                    fontSize = 10.sp
+                )
+                Text(
+                    text = "MaxTemp: ${weatherData.value?.main?.tempMax}",
+                    fontSize = 10.sp
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
 //        Text(text = "descr: ${weatherData.value}")
-        Text(
-            text = weatherData.value?.weather?.get(0)?.description ?: "Description",
-            fontSize = 12.sp
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            WeatherItem(
-                modifier = Modifier,
-                title = "Wind",
-                value = weatherData.value?.wind?.speed.toString(),
-                icon = R.drawable.wind,
+            Text(
+                text = weatherData.value?.weather?.get(0)?.description ?: "Description",
+                fontSize = 12.sp
             )
-            WeatherItem(
-                modifier = Modifier,
-                title = "Humidity",
-                value = weatherData.value?.main?.humidity.toString(),
-                icon = R.drawable.humidity,
-            )
-            WeatherItem(
-                modifier = Modifier,
-                title = "Pressure",
-                value = weatherData.value?.main?.pressure.toString(),
-                icon = R.drawable.pressure,
-            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                WeatherItem(
+                    modifier = Modifier,
+                    title = "Wind",
+                    value = weatherData.value?.wind?.speed.toString(),
+                    icon = R.drawable.wind,
+                )
+                WeatherItem(
+                    modifier = Modifier,
+                    title = "Humidity",
+                    value = weatherData.value?.main?.humidity.toString(),
+                    icon = R.drawable.humidity,
+                )
+                WeatherItem(
+                    modifier = Modifier,
+                    title = "Pressure",
+                    value = weatherData.value?.main?.pressure.toString(),
+                    icon = R.drawable.pressure,
+                )
+            }
         }
     }
 }
